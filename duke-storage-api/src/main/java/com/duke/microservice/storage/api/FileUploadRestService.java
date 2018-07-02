@@ -9,6 +9,4 @@ import org.springframework.cloud.netflix.feign.FeignClient;
 @FeignClient(value = StorageConstants.SERVICE_ID)
 public class FileUploadRestService {
 
-
-
 }

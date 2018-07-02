@@ -35,6 +35,8 @@ logging:
 debug: true
 
 duke:
+  storage:
+    path: d:/work/code/duke/blog/storage
   sqllog:
     enabled: true #开启sqllog
   swagger:

@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="com.duke.microservice.storage.domain.basic.Storage" >
     <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="suffix" property="suffix" jdbcType="VARCHAR" />
     <result column="service_id" property="serviceId" jdbcType="VARCHAR" />
     <result column="path" property="path" jdbcType="VARCHAR" />
     <result column="size" property="size" jdbcType="INTEGER" />
@@ -18,18 +19,19 @@
     where id = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.duke.microservice.storage.domain.basic.Storage" >
-    insert into storage (id, name, service_id, 
-      path, size, status, 
-      user_id, type, upload_time, 
-      delete_time)
-    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{serviceId,jdbcType=VARCHAR}, 
-      #{path,jdbcType=VARCHAR}, #{size,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
-      #{userId,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{uploadTime,jdbcType=TIMESTAMP}, 
-      #{deleteTime,jdbcType=TIMESTAMP})
+    insert into storage (id, name, suffix, 
+      service_id, path, size, 
+      status, user_id, type, 
+      upload_time, delete_time)
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{suffix,jdbcType=VARCHAR}, 
+      #{serviceId,jdbcType=VARCHAR}, #{path,jdbcType=VARCHAR}, #{size,jdbcType=INTEGER}, 
+      #{status,jdbcType=INTEGER}, #{userId,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
+      #{uploadTime,jdbcType=TIMESTAMP}, #{deleteTime,jdbcType=TIMESTAMP})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.duke.microservice.storage.domain.basic.Storage" >
     update storage
     set name = #{name,jdbcType=VARCHAR},
+      suffix = #{suffix,jdbcType=VARCHAR},
       service_id = #{serviceId,jdbcType=VARCHAR},
       path = #{path,jdbcType=VARCHAR},
       size = #{size,jdbcType=INTEGER},
@@ -41,12 +43,14 @@
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select id, name, service_id, path, size, status, user_id, type, upload_time, delete_time
+    select id, name, suffix, service_id, path, size, status, user_id, type, upload_time, 
+    delete_time
     from storage
     where id = #{id,jdbcType=VARCHAR}
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
-    select id, name, service_id, path, size, status, user_id, type, upload_time, delete_time
+    select id, name, suffix, service_id, path, size, status, user_id, type, upload_time, 
+    delete_time
     from storage
   </select>
 </mapper>
