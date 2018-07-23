@@ -10,7 +10,7 @@ public class StorageConstants {
     /**
      * 文件状态
      */
-    public static enum FILE_STATUS {
+    public enum FILE_STATUS {
         /**
          * 0：删除  1：存在
          */

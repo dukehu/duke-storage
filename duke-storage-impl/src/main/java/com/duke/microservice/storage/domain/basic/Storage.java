@@ -25,6 +25,8 @@ public class Storage {
 
     private Date deleteTime;
 
+    private String md5;
+
     public String getId() {
         return id;
     }
@@ -111,5 +113,13 @@ public class Storage {
 
     public void setDeleteTime(Date deleteTime) {
         this.deleteTime = deleteTime;
+    }
+
+    public String getMd5() {
+        return md5;
+    }
+
+    public void setMd5(String md5) {
+        this.md5 = md5;
     }
 }

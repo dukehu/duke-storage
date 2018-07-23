@@ -13,6 +13,7 @@
     <result column="type" property="type" jdbcType="INTEGER" />
     <result column="upload_time" property="uploadTime" jdbcType="TIMESTAMP" />
     <result column="delete_time" property="deleteTime" jdbcType="TIMESTAMP" />
+    <result column="md5" property="md5" jdbcType="VARCHAR" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from storage
@@ -22,11 +23,13 @@
     insert into storage (id, name, suffix, 
       service_id, path, size, 
       status, user_id, type, 
-      upload_time, delete_time)
+      upload_time, delete_time, md5
+      )
     values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{suffix,jdbcType=VARCHAR}, 
       #{serviceId,jdbcType=VARCHAR}, #{path,jdbcType=VARCHAR}, #{size,jdbcType=INTEGER}, 
       #{status,jdbcType=INTEGER}, #{userId,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
-      #{uploadTime,jdbcType=TIMESTAMP}, #{deleteTime,jdbcType=TIMESTAMP})
+      #{uploadTime,jdbcType=TIMESTAMP}, #{deleteTime,jdbcType=TIMESTAMP}, #{md5,jdbcType=VARCHAR}
+      )
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.duke.microservice.storage.domain.basic.Storage" >
     update storage
@@ -39,18 +42,19 @@
       user_id = #{userId,jdbcType=VARCHAR},
       type = #{type,jdbcType=INTEGER},
       upload_time = #{uploadTime,jdbcType=TIMESTAMP},
-      delete_time = #{deleteTime,jdbcType=TIMESTAMP}
+      delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      md5 = #{md5,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select id, name, suffix, service_id, path, size, status, user_id, type, upload_time, 
-    delete_time
+    delete_time, md5
     from storage
     where id = #{id,jdbcType=VARCHAR}
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
     select id, name, suffix, service_id, path, size, status, user_id, type, upload_time, 
-    delete_time
+    delete_time, md5
     from storage
   </select>
 </mapper>

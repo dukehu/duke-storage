@@ -5,6 +5,7 @@ import com.duke.microservice.storage.service.FileUploadService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -26,13 +27,28 @@ public class FileUploadController {
 
 
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "serviceId", value = "上传文件的服务id", dataType = "string", paramType = "query")
+            @ApiImplicitParam(name = "serviceId", value = "上传文件的服务id", dataType = "string", paramType = "query", required = true),
+            @ApiImplicitParam(name = "md5", value = "文件md5值", dataType = "string", paramType = "query")
     })
-    @RequestMapping(value = "/storage/file_upload", method = RequestMethod.POST)
+    @ApiOperation(value = "单文件上传", notes = "单文件上传")
+    @RequestMapping(value = "/upload", method = RequestMethod.POST)
     public Response<String> fileUpload(@RequestParam(value = "file", required = false) MultipartFile file,
                                        @RequestParam(value = "serviceId", required = false) String serviceId,
+                                       @RequestParam(value = "md5", required = false) String md5,
                                        HttpServletRequest request) {
-        fileUploadService.fileUpload(file, serviceId);
+        fileUploadService.fileUpload(file, serviceId, md5);
+        return Response.ok();
+    }
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "serviceId", value = "上传文件的服务id", dataType = "string", paramType = "query", required = true)
+    })
+    @ApiOperation(value = "多文件上传", notes = "多文件上传")
+    @RequestMapping(value = "/batch/upload", method = RequestMethod.POST)
+    public Response<String> fileBatchUpload(@RequestParam(value = "serviceId", required = false) String serviceId,
+                                            HttpServletRequest request) {
+
+        fileUploadService.fileBatchUpload(serviceId, request);
         return Response.ok();
     }
 

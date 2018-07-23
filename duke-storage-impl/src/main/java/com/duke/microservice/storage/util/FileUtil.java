@@ -13,12 +13,13 @@ public class FileUtil {
     /**
      * 得到文件后缀名
      *
-     * @param fileName 文件原始名称，如：time.png
+     * @param originalFileName 文件原始名称，如：time.png
      * @return 文件后缀
      */
-    public static String getFileSuffix(String fileName) {
-        return fileName.substring(fileName.lastIndexOf("."), fileName.length());
+    public static String getFileSuffix(String originalFileName) {
+        return originalFileName.substring(originalFileName.lastIndexOf(".") + 1, originalFileName.length());
     }
+
 
     /**
      * 拼装上传文件的文件夹路径
@@ -33,5 +34,15 @@ public class FileUtil {
                 "/" + calendar.get(Calendar.YEAR) +
                 "/" + (calendar.get(Calendar.MONTH) + 1) +
                 "/" + calendar.get(Calendar.DATE);
+    }
+
+    /**
+     * 截取文件名称，去掉后缀
+     *
+     * @param originalFileName 文件原始名称
+     * @return 文件名称
+     */
+    public static String getFileName(String originalFileName) {
+        return originalFileName.substring(0, originalFileName.lastIndexOf("."));
     }
 }
