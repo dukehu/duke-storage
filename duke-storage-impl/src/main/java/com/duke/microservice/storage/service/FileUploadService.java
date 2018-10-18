@@ -1,5 +1,7 @@
 package com.duke.microservice.storage.service;
 
+import com.duke.framework.security.AuthUserDetails;
+import com.duke.framework.utils.SecurityUtils;
 import com.duke.microservice.storage.StorageConstants;
 import com.duke.microservice.storage.StorageProperties;
 import com.duke.microservice.storage.domain.basic.Storage;
@@ -7,9 +9,11 @@ import com.duke.microservice.storage.mapper.basic.StorageMapper;
 import com.duke.microservice.storage.mapper.extend.StorageExtendMapper;
 import com.duke.microservice.storage.util.FileUtil;
 import com.duke.microservice.storage.utils.ValidationUtils;
+import org.apache.catalina.security.SecurityUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -51,8 +55,8 @@ public class FileUploadService {
      */
     public void fileUpload(MultipartFile multipartFile, String serviceId, String md5) {
         // todo 获得用户信息
-        String userId = "duke";
-        serviceId = "duke";
+        AuthUserDetails authUserDetails = SecurityUtils.getCurrentUserInfo();
+        String userId = authUserDetails.getUserId();
         ValidationUtils.notEmpty(multipartFile, "文件不可为空！");
         ValidationUtils.notEmpty(serviceId, "服务id不可为空！");
 
@@ -70,7 +74,7 @@ public class FileUploadService {
         File file = new File(storageProperties.getPath() + relativeFilePath);
 
         if (!file.exists()) {
-            Boolean mkdirsed = file.mkdirs();
+            boolean mkdirsed = file.mkdirs();
             if (!mkdirsed) {
                 // todo 抛出异常，创建文件夹失败
             }

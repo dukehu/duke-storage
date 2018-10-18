@@ -17,8 +17,6 @@ public class StorageProperties {
 
     private long maxUploadSize;
 
-    private Map<String, String> tmp;
-
     private List<String> textType;
 
     private List<String> imgType;
@@ -28,8 +26,6 @@ public class StorageProperties {
     private List<String> compressType;
 
     private List<String> pdfType;
-
-    private Map<String, String> soffice;
 
     private Qiniu qiniu = new Qiniu();
 
@@ -55,14 +51,6 @@ public class StorageProperties {
 
     public void setTextType(List<String> textType) {
         this.textType = textType;
-    }
-
-    public Map<String, String> getTmp() {
-        return tmp;
-    }
-
-    public void setTmp(Map<String, String> tmp) {
-        this.tmp = tmp;
     }
 
     public List<String> getImgType() {
@@ -95,14 +83,6 @@ public class StorageProperties {
 
     public void setPdfType(List<String> pdfType) {
         this.pdfType = pdfType;
-    }
-
-    public Map<String, String> getSoffice() {
-        return soffice;
-    }
-
-    public void setSoffice(Map<String, String> soffice) {
-        this.soffice = soffice;
     }
 
     public Qiniu getQiniu() {
