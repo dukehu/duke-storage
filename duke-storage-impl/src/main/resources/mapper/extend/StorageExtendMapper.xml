@@ -19,4 +19,23 @@
         where
             md5 = #{md5, jdbcType=VARCHAR};
     </select>
+
+    <select id="selectFilesByServiceId" resultType="com.duke.microservice.storage.domain.basic.Storage">
+        select
+            id          as id,
+            `name`      as name,
+            suffix      as suffix,
+            service_id  as serviceId,
+            path        as path,
+            size        as size,
+            `status`    as status,
+            user_id     as userId,
+            type        as type,
+            upload_time as uploadTime,
+            delete_time as deleteTime,
+            md5         as md5
+        from storage
+        where
+            service_id = #{serviceId, jdbcType=VARCHAR}
+    </select>
 </mapper>

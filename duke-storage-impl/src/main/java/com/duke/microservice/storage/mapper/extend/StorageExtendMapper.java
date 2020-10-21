@@ -19,4 +19,12 @@ public interface StorageExtendMapper {
      * @return List<Storage>
      */
     List<Storage> selectByMD5(@Param("md5") String md5);
+
+    /**
+     * 根据服务id查询
+     *
+     * @param serviceId 服务id
+     * @return List<Storage>
+     */
+    List<Storage> selectFilesByServiceId(@Param("serviceId") String serviceId);
 }

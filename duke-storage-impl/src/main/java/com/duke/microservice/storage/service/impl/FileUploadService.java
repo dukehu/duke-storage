@@ -1,19 +1,16 @@
-package com.duke.microservice.storage.service;
+package com.duke.microservice.storage.service.impl;
 
-import com.duke.framework.security.AuthUserDetails;
-import com.duke.framework.utils.SecurityUtils;
+import com.duke.framework.utils.FileUtils;
 import com.duke.microservice.storage.StorageConstants;
 import com.duke.microservice.storage.StorageProperties;
 import com.duke.microservice.storage.domain.basic.Storage;
 import com.duke.microservice.storage.mapper.basic.StorageMapper;
 import com.duke.microservice.storage.mapper.extend.StorageExtendMapper;
-import com.duke.microservice.storage.util.FileUtil;
+import com.duke.microservice.storage.service.IFileUploadService;
 import com.duke.microservice.storage.utils.ValidationUtils;
-import org.apache.catalina.security.SecurityUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -34,7 +31,7 @@ import java.util.UUID;
  */
 @Service
 @Transactional
-public class FileUploadService {
+public class FileUploadService implements IFileUploadService {
 
     private Logger log = LoggerFactory.getLogger(FileUploadService.class);
 
@@ -47,16 +44,9 @@ public class FileUploadService {
     @Autowired
     private StorageExtendMapper storageExtendMapper;
 
-    /**
-     * 文件上传
-     *
-     * @param multipartFile 文件对象
-     * @param serviceId     服务id
-     */
     public void fileUpload(MultipartFile multipartFile, String serviceId, String md5) {
         // todo 获得用户信息
-        AuthUserDetails authUserDetails = SecurityUtils.getCurrentUserInfo();
-        String userId = authUserDetails.getUserId();
+        String userId = "b66a3fe7-8fdd-11e8-bcd8-18dbf21f6c28";
         ValidationUtils.notEmpty(multipartFile, "文件不可为空！");
         ValidationUtils.notEmpty(serviceId, "服务id不可为空！");
 
@@ -65,12 +55,12 @@ public class FileUploadService {
         // 文件名称，如time.png
         String originalFileName = multipartFile.getOriginalFilename();
         // 街截取文件后缀
-        String fileSuffix = FileUtil.getFileSuffix(originalFileName);
+        String fileSuffix = FileUtils.getFileSuffix(originalFileName);
         // 文件名称，去后缀
-        String fileName = FileUtil.getFileName(originalFileName);
+        String fileName = FileUtils.getFileName(originalFileName);
         // todo 校验文件名称长度
 
-        String relativeFilePath = FileUtil.getRelativeFilePath(serviceId);
+        String relativeFilePath = FileUtils.getRelativeFilePath(serviceId);
         File file = new File(storageProperties.getPath() + relativeFilePath);
 
         if (!file.exists()) {
@@ -80,7 +70,7 @@ public class FileUploadService {
             }
         }
         String id = UUID.randomUUID().toString();
-        String path = storageProperties.getPath() + relativeFilePath + "/" + id + "." +fileSuffix;
+        String path = storageProperties.getPath() + relativeFilePath + "/" + id + "." + fileSuffix;
 
         // 上传文件并将文件基本信息保存到数据库中
         try {
@@ -111,12 +101,6 @@ public class FileUploadService {
         storageMapper.insert(storage);
     }
 
-    /**
-     * 多文件上传
-     *
-     * @param serviceId 服务id
-     * @param request   请求
-     */
     public void fileBatchUpload(String serviceId, HttpServletRequest request) {
         // todo 获得用户信息
         String userId = "duke";

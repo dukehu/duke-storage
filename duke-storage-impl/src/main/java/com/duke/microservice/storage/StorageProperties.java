@@ -15,6 +15,8 @@ public class StorageProperties {
 
     private String path;
 
+    private String pdfStoragePath;
+
     private long maxUploadSize;
 
     private List<String> textType;
@@ -35,6 +37,14 @@ public class StorageProperties {
 
     public void setPath(String path) {
         this.path = path;
+    }
+
+    public String getPdfStoragePath() {
+        return pdfStoragePath;
+    }
+
+    public void setPdfStoragePath(String pdfStoragePath) {
+        this.pdfStoragePath = pdfStoragePath;
     }
 
     public long getMaxUploadSize() {

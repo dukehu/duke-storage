@@ -1,12 +1,16 @@
 spring:
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/duke_storage?useUnicode=true&characterEncoding=utf8&useSSL=false
+    url: jdbc:mysql://dukehu.top:3306/duke_storage?useUnicode=true&characterEncoding=utf8&useSSL=false
     username: root
-    password: duke
+    password: Duke@0417
+  resources:
+    static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/,file:D:/work/file_storage/duke
+
 
 duke:
   storage:
     path: D:/work/file_storage/duke
+    pdf-storage-path: D:/work/file_storage/duke/ # 转换成pdf后文件存储地址
     max-upload-size: 1024
     #文本类型文件后缀
     text-type: txt,sql,java,js,html,xml,html,css

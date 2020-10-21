@@ -171,6 +171,30 @@
             <version>[7.2.0, 7.2.99]</version>
         </dependency>
 
+        <!--jodconverter 核心包 -->
+        <!-- https://mvnrepository.com/artifact/org.jodconverter/jodconverter-core -->
+        <dependency>
+            <groupId>org.jodconverter</groupId>
+            <artifactId>jodconverter-core</artifactId>
+            <version>4.2.2</version>
+        </dependency>
+
+        <!--springboot支持包，里面包括了自动配置类 -->
+        <!-- https://mvnrepository.com/artifact/org.jodconverter/jodconverter-spring-boot-starter -->
+        <dependency>
+            <groupId>org.jodconverter</groupId>
+            <artifactId>jodconverter-spring-boot-starter</artifactId>
+            <version>4.2.2</version>
+        </dependency>
+
+        <!--jodconverter 本地支持包 -->
+        <!-- https://mvnrepository.com/artifact/org.jodconverter/jodconverter-local -->
+        <dependency>
+            <groupId>org.jodconverter</groupId>
+            <artifactId>jodconverter-local</artifactId>
+            <version>4.2.2</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -209,6 +233,7 @@
             </activation>
             <properties>
                 <profileActive>dev</profileActive>
+                <openOfficeHome>C:\Program Files (x86)\OpenOffice 4</openOfficeHome>
             </properties>
         </profile>
 
@@ -216,6 +241,7 @@
             <id>prod</id>
             <properties>
                 <profileActive>prod</profileActive>
+                <openOfficeHome>D:\app\OpenOffice</openOfficeHome>
             </properties>
         </profile>
     </profiles>

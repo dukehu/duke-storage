@@ -2,7 +2,7 @@ package com.duke.microservice.storage.web.controller;
 
 import com.duke.microservice.storage.api.BreakPointUploadRestService;
 import com.duke.microservice.storage.common.Response;
-import com.duke.microservice.storage.service.FileUploadService;
+import com.duke.microservice.storage.service.impl.FileUploadService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;

@@ -1,7 +1,7 @@
 package com.duke.microservice.storage.web.controller;
 
 import com.duke.microservice.storage.common.Response;
-import com.duke.microservice.storage.service.FileDownLoadService;
+import com.duke.microservice.storage.service.IFileDownLoadService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 public class FileDownLoadController {
 
     @Autowired
-    private FileDownLoadService fileDownLoadService;
+    private IFileDownLoadService fileDownLoadService;
 
     @ApiImplicitParams({
             @ApiImplicitParam(name = "fileId", value = "附件id", dataType = "string", paramType = "path")

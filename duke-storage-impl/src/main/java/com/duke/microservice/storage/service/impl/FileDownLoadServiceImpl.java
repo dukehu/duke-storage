@@ -1,22 +1,21 @@
-package com.duke.microservice.storage.service;
+package com.duke.microservice.storage.service.impl;
 
 import com.duke.microservice.storage.domain.basic.Storage;
 import com.duke.microservice.storage.exception.BusinessException;
 import com.duke.microservice.storage.mapper.basic.StorageMapper;
-import com.duke.microservice.storage.utils.ValidationUtils;
+import com.duke.microservice.storage.service.IFileDownLoadService;
+import com.duke.microservice.storage.service.IFileService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.ObjectUtils;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 /**
@@ -24,23 +23,20 @@ import java.io.IOException;
  */
 @Service
 @Transactional
-public class FileDownLoadService {
+public class FileDownLoadServiceImpl implements IFileDownLoadService {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(FileDownLoadService.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(FileDownLoadServiceImpl.class);
 
     @Autowired
     private StorageMapper storageMapper;
 
-    /**
-     * 文件下载
-     *
-     * @param fileId   附件id
-     * @param request  请求
-     * @param response 响应
-     */
+    @Autowired
+    private IFileService fileService;
+
+    @Override
     public void fileDownLoad(String fileId, HttpServletRequest request, HttpServletResponse response) {
         try {
-            Storage storage = this.exist(fileId);
+            Storage storage = fileService.exist(fileId);
             File file = new File(storage.getPath());
             if (!file.exists()) {
                 throw new BusinessException("数据不存在，无法下载");
@@ -67,20 +63,5 @@ public class FileDownLoadService {
             e.printStackTrace();
         }
 
-    }
-
-    /**
-     * 校验附件id有效性
-     *
-     * @param fileId 附件id
-     * @return Storage
-     */
-    public Storage exist(String fileId) {
-        ValidationUtils.notEmpty(fileId, "附件id不能为空！");
-        Storage storage = storageMapper.selectByPrimaryKey(fileId);
-        if (ObjectUtils.isEmpty(storage)) {
-            throw new BusinessException("id为：" + fileId + "的附件不存在！");
-        }
-        return storage;
     }
 }

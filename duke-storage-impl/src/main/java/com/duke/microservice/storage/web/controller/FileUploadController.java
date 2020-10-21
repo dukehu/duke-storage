@@ -1,13 +1,15 @@
 package com.duke.microservice.storage.web.controller;
 
+import com.duke.microservice.storage.api.FileUploadRestService;
 import com.duke.microservice.storage.common.Response;
-import com.duke.microservice.storage.service.FileUploadService;
+import com.duke.microservice.storage.service.IFileUploadService;
+import com.duke.microservice.storage.vm.StorageVM;
+import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,35 +23,18 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Api(description = "文件上传接口文档")
 @RestController
-public class FileUploadController {
+public class FileUploadController implements FileUploadRestService {
 
     @Autowired
-    private FileUploadService fileUploadService;
-
+    private IFileUploadService fileUploadService;
 
     @ApiImplicitParams({
             @ApiImplicitParam(name = "serviceId", value = "上传文件的服务id", dataType = "string", paramType = "query", required = true),
             @ApiImplicitParam(name = "md5", value = "文件md5值", dataType = "string", paramType = "query")
     })
     @ApiOperation(value = "单文件上传", notes = "单文件上传")
-    @RequestMapping(value = "/upload", method = RequestMethod.POST)
-    @PreAuthorize("hasAuthority('admin') or hasAuthority('storage_upload_fileUpload')")
+    @RequestMapping(value = "/nologin/upload", method = RequestMethod.POST)
     public Response<String> fileUpload(@RequestParam(value = "file", required = false) MultipartFile file,
-                                       @RequestParam(value = "serviceId", required = false) String serviceId,
-                                       @RequestParam(value = "md5", required = false) String md5,
-                                       HttpServletRequest request) {
-        fileUploadService.fileUpload(file, serviceId, md5);
-        return Response.ok();
-    }
-
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "serviceId", value = "上传文件的服务id", dataType = "string", paramType = "query", required = true),
-            @ApiImplicitParam(name = "md5", value = "文件md5值", dataType = "string", paramType = "query")
-    })
-    @ApiOperation(value = "单文件上传", notes = "单文件上传")
-    @RequestMapping(value = "/upload", method = RequestMethod.POST)
-    @PreAuthorize("hasAuthority('admin') or hasAuthority('storage_upload_fileUpload')")
-    public Response<String> markDownFileUpload(@RequestParam(value = "file", required = false) MultipartFile file,
                                        @RequestParam(value = "serviceId", required = false) String serviceId,
                                        @RequestParam(value = "md5", required = false) String md5,
                                        HttpServletRequest request) {
@@ -61,7 +46,7 @@ public class FileUploadController {
             @ApiImplicitParam(name = "serviceId", value = "上传文件的服务id", dataType = "string", paramType = "query", required = true)
     })
     @ApiOperation(value = "多文件上传", notes = "多文件上传")
-    @RequestMapping(value = "/batch/upload", method = RequestMethod.POST)
+    @RequestMapping(value = "/nologin/batch/upload", method = RequestMethod.POST)
     public Response<String> fileBatchUpload(@RequestParam(value = "serviceId", required = false) String serviceId,
                                             HttpServletRequest request) {
 
