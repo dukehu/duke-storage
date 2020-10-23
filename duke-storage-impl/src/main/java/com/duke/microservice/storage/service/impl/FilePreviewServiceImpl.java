@@ -38,7 +38,7 @@ public class FilePreviewServiceImpl implements IFilePreviewService {
             if (!targetFile.exists()) {
                 targetFile.mkdirs();
             }
-            String pdfFilePath = storageProperties.getPdfStoragePath() + FileUtils.getPdfRelativeFilePath(serviceId) + "/" + storage.getId() + ".pdf";
+            String pdfFilePath = storageProperties.getPdfStoragePath() + FileUtils.getPdfRelativeFilePath(serviceId) + "/" + storage.getMd5() + ".pdf";
             File pdfFile = new File(pdfFilePath);
             if (!pdfFile.exists()) {
                 documentConverter.convert(sourceFile).to(pdfFile).execute();
@@ -46,6 +46,6 @@ public class FilePreviewServiceImpl implements IFilePreviewService {
         } catch (OfficeException e) {
             e.printStackTrace();
         }
-        return FileUtils.getPdfRelativeFilePath(serviceId) + "/" + storage.getId() + ".pdf";
+        return FileUtils.getPdfRelativeFilePath(serviceId) + "/" + storage.getMd5() + ".pdf";
     }
 }

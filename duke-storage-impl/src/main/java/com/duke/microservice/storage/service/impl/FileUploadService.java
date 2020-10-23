@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.DigestUtils;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -69,41 +70,43 @@ public class FileUploadService implements IFileUploadService {
                 // todo 抛出异常，创建文件夹失败
             }
         }
-        String id = UUID.randomUUID().toString();
-        String path = storageProperties.getPath() + relativeFilePath + "/" + id + "." + fileSuffix;
 
-        // 上传文件并将文件基本信息保存到数据库中
         try {
-            log.info("文件开始开始，上传路径：" + path);
-            multipartFile.transferTo(new File(path));
-            log.info("文件上传结束");
+            // 获取文件MD5值
+            String MD5 = DigestUtils.md5DigestAsHex(multipartFile.getBytes());
+            String id = UUID.randomUUID().toString();
+            String path = storageProperties.getPath() + relativeFilePath + "/" + MD5 + "." + fileSuffix;
+            if (!this.checkMD5("", fileName, MD5)) {
+                log.info("文件md5值：" + MD5);
+                log.info("文件开始开始，上传路径：" + path);
+                multipartFile.transferTo(new File(path));
+                log.info("文件上传结束");
+                Date date = new Date();
+                // 保存文件基本信息
+                Storage storage = new Storage();
+                storage.setId(id);
+                storage.setName(fileName);
+                storage.setSuffix(fileSuffix);
+                storage.setServiceId(serviceId);
+                storage.setPath(path);
+                storage.setSize(new Long(fileSize).intValue());
+                storage.setStatus(StorageConstants.FILE_STATUS.EXIST.getCode());
+                storage.setUserId(userId);
+                storage.setMd5(MD5);
+                // todo 处理文件类型
+                storage.setType(1);
+                storage.setUploadTime(date);
+                storage.setDeleteTime(date);
+                storageMapper.insert(storage);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        Date date = new Date();
-
-        // 保存文件基本信息
-        Storage storage = new Storage();
-        storage.setId(id);
-        storage.setName(fileName);
-        storage.setSuffix(fileSuffix);
-        storage.setServiceId(serviceId);
-        storage.setPath(path);
-        storage.setSize(new Long(fileSize).intValue());
-        storage.setStatus(StorageConstants.FILE_STATUS.EXIST.getCode());
-        storage.setUserId(userId);
-        storage.setMd5(md5);
-        // todo 处理文件类型
-        storage.setType(1);
-        storage.setUploadTime(date);
-        storage.setDeleteTime(date);
-        storageMapper.insert(storage);
     }
 
     public void fileBatchUpload(String serviceId, HttpServletRequest request) {
         // todo 获得用户信息
-        String userId = "duke";
+        String userId = "b66a3fe7-8fdd-11e8-bcd8-18dbf21f6c28";
         ValidationUtils.notEmpty(serviceId, "服务id不可为空！");
         // 创建一个多分解的容器
         CommonsMultipartResolver commonsMultipartResolver =
@@ -129,6 +132,20 @@ public class FileUploadService implements IFileUploadService {
         // todo 多文件上传先不做，需要用的时候再去处理
     }
 
+    @Override
+    public void secondUpload(String fileName, String md5, String serviceId) {
+        Date date = new Date();
+        String fileNameNotSuffix = fileName.substring(0, fileName.lastIndexOf("."));
+        List<Storage> storages = storageExtendMapper.selectByMD5(md5);
+        Storage storage = storages.get(0);
+        storage.setId(UUID.randomUUID().toString());
+        storage.setServiceId(serviceId);
+        storage.setName(fileNameNotSuffix);
+        storage.setUploadTime(date);
+        storage.setDeleteTime(date);
+        storageMapper.insert(storage);
+    }
+
     /**
      * 根据md5值判断资源文件是否存在，如果存在则直接复制一条数据，返回true，直接上传
      *
@@ -137,8 +154,7 @@ public class FileUploadService implements IFileUploadService {
      * @param md5       文件md5值
      * @return Boolean
      */
-    @Transactional(readOnly = true)
-    public Boolean checkMD5(String serviceId, String name, String md5) {
+    private Boolean checkMD5(String serviceId, String name, String md5) {
         ValidationUtils.notEmpty(md5, "文件MD5值不能为空！");
         List<Storage> storageList = storageExtendMapper.selectByMD5(md5);
         if (!CollectionUtils.isEmpty(storageList)) {

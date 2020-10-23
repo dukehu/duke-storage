@@ -122,4 +122,22 @@ public class Storage {
     public void setMd5(String md5) {
         this.md5 = md5;
     }
+
+    public Storage() {
+    }
+
+    public Storage(String id, String name, String suffix, String serviceId, String path, Integer size, Integer status, String userId, Integer type, Date uploadTime, Date deleteTime, String md5) {
+        this.id = id;
+        this.name = name;
+        this.suffix = suffix;
+        this.serviceId = serviceId;
+        this.path = path;
+        this.size = size;
+        this.status = status;
+        this.userId = userId;
+        this.type = type;
+        this.uploadTime = uploadTime;
+        this.deleteTime = deleteTime;
+        this.md5 = md5;
+    }
 }

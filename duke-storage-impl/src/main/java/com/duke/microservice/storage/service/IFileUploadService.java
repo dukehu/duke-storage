@@ -22,4 +22,11 @@ public interface IFileUploadService {
      */
     void fileBatchUpload(String serviceId, HttpServletRequest request);
 
+    /**
+     * 秒传
+     * @param fileName 文件名
+     * @param md5 md5
+     * @param serviceId 服务名
+     */
+    void secondUpload(String fileName, String md5, String serviceId);
 }

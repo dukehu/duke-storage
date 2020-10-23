@@ -23,4 +23,18 @@ public interface IFileService {
      * @return PageInfo<StorageVM>
      */
     PageInfo<StorageVM> selectFilesByServiceId(String serviceId, Integer page, Integer size);
+
+    /**
+     * 根据附件id删除
+     *
+     * @param fileId 附件id
+     */
+    void deleteById(String fileId);
+
+    /**
+     * 根据MD5值查询
+     *
+     * @param md5 md5值
+     */
+    Boolean selectByMD5(String md5);
 }

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.duke.microservice.storage.mapper.basic.ChunkMapper">
+    <resultMap id="BaseResultMap" type="com.duke.microservice.storage.domain.basic.Chunk">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="chunk_number" property="chunkNumber" jdbcType="INTEGER"/>
+        <result column="chunk_size" property="chunkSize" jdbcType="BIGINT"/>
+        <result column="current_chunk_size" property="currentChunkSize" jdbcType="BIGINT"/>
+        <result column="total_size" property="totalSize" jdbcType="BIGINT"/>
+        <result column="total_chunks" property="totalChunks" jdbcType="INTEGER"/>
+        <result column="path" property="path" jdbcType="VARCHAR"/>
+        <result column="md5" property="md5" jdbcType="VARCHAR"/>
+        <result column="file_name" property="fileName" jdbcType="VARCHAR"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from chunk
+        where id = #{id,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" parameterType="com.duke.microservice.storage.domain.basic.Chunk">
+        insert into chunk (id, chunk_number, chunk_size,
+        current_chunk_size, total_size, total_chunks,
+        path, md5, file_name
+        )
+        values (#{id,jdbcType=VARCHAR}, #{chunkNumber,jdbcType=INTEGER}, #{chunkSize,jdbcType=BIGINT},
+        #{currentChunkSize,jdbcType=BIGINT}, #{totalSize,jdbcType=BIGINT}, #{totalChunks,jdbcType=INTEGER},
+        #{path,jdbcType=VARCHAR}, #{md5,jdbcType=VARCHAR}, #{fileName,jdbcType=VARCHAR}
+        )
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com.duke.microservice.storage.domain.basic.Chunk">
+        update chunk
+        set chunk_number = #{chunkNumber,jdbcType=INTEGER},
+        chunk_size = #{chunkSize,jdbcType=BIGINT},
+        current_chunk_size = #{currentChunkSize,jdbcType=BIGINT},
+        total_size = #{totalSize,jdbcType=BIGINT},
+        total_chunks = #{totalChunks,jdbcType=INTEGER},
+        path = #{path,jdbcType=VARCHAR},
+        md5 = #{md5,jdbcType=VARCHAR},
+        file_name = #{fileName,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select id, chunk_number, chunk_size, current_chunk_size, total_size, total_chunks,
+        path, md5, file_name
+        from chunk
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select id, chunk_number, chunk_size, current_chunk_size, total_size, total_chunks,
+        path, md5, file_name
+        from chunk
+    </select>
+</mapper>

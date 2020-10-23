@@ -29,7 +29,7 @@ public class FileDownLoadController {
             @ApiImplicitParam(name = "fileId", value = "附件id", dataType = "string", paramType = "path")
     })
     @ApiOperation(value = "文件下载", notes = "文件下载")
-    @RequestMapping(value = "/file_download/{fileId}", method = RequestMethod.POST)
+    @RequestMapping(value = "/nologin/file_download/{fileId}", method = RequestMethod.POST)
     public Response<String> fileDownLoad(@PathVariable(value = "fileId", required = false) String fileId,
                                          HttpServletRequest request,
                                          HttpServletResponse response) {

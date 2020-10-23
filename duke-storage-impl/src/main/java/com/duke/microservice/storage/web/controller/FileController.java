@@ -9,10 +9,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created duke on 2020/10/21
@@ -35,6 +32,25 @@ public class FileController {
                                                @RequestParam(value = "page", required = false) Integer page,
                                                @RequestParam(value = "size", required = false) Integer size) {
         return Response.ok(fileService.selectFilesByServiceId(serviceId, page, size));
+    }
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "fileId", value = "附件id", dataType = "string", paramType = "query", required = true)
+    })
+    @ApiOperation(value = "根据附件id删除附件", notes = "根据附件id删除附件")
+    @RequestMapping(value = "/nologin/file/{fileId}", method = RequestMethod.DELETE)
+    public Response<String> deleteById(@PathVariable(value = "fileId", required = false) String fileId) {
+        fileService.deleteById(fileId);
+        return Response.ok();
+    }
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "fileId", value = "附件id", dataType = "string", paramType = "query", required = true)
+    })
+    @ApiOperation(value = "根据附件id删除附件", notes = "根据附件id删除附件")
+    @RequestMapping(value = "/nologin/file/{md5}", method = RequestMethod.GET)
+    public Response<Boolean> selectByMD5(@PathVariable(value = "md5", required = false) String md5) {
+        return Response.ok(fileService.selectByMD5(md5));
     }
 
 }

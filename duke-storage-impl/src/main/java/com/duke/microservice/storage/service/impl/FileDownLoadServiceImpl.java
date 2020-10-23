@@ -47,8 +47,8 @@ public class FileDownLoadServiceImpl implements IFileDownLoadService {
             FileInputStream is = new FileInputStream(file);
             ServletOutputStream out = response.getOutputStream();
 
-            String filename = new String((storage.getName() + "." + storage.getSuffix()).getBytes("utf-8"), "utf-8");
-            response.setHeader("Content-Disposition", "attachment;filename=" + filename);
+            String filename = storage.getName() + "." + storage.getSuffix();
+            response.setHeader("Content-Disposition", "attachment;filename=" + new String(filename.getBytes("UTF-8"),"iso-8859-1"));
             byte[] bytes = new byte[1024];
             int len;
             LOGGER.info("文件下载开始：" + filename + "（" + fileId + "）");

@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 
+import java.io.File;
 import java.util.List;
 
 @Service
@@ -78,6 +79,21 @@ public class FileServiceImpl implements IFileService {
             BeanUtils.copyProperties(storages, storageVMS);
         }
         return new PageInfo<>(storageVMS);
+    }
+
+    @Override
+    @Transactional
+    public void deleteById(String fileId) {
+        Storage storage = this.exist(fileId);
+        File file = new File(storage.getPath());
+        // todo 删除对应预览时生成的pdf文件
+        file.deleteOnExit();
+        storageMapper.deleteByPrimaryKey(fileId);
+    }
+
+    @Override
+    public Boolean selectByMD5(String md5) {
+        return !CollectionUtils.isEmpty(storageExtendMapper.selectByMD5(md5));
     }
 
 }
