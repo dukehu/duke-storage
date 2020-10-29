@@ -34,11 +34,11 @@ public class FilePreviewServiceImpl implements IFilePreviewService {
         }
         try {
             File sourceFile = new File(storage.getPath());
-            File targetFile = new File(storageProperties.getPdfStoragePath());
+            File targetFile = new File(storageProperties.getPath());
             if (!targetFile.exists()) {
                 targetFile.mkdirs();
             }
-            String pdfFilePath = storageProperties.getPdfStoragePath() + FileUtils.getPdfRelativeFilePath(serviceId) + "/" + storage.getMd5() + ".pdf";
+            String pdfFilePath = storageProperties.getPath() + FileUtils.getPdfPreviewRelativeFilePath(serviceId) + "/" + storage.getMd5() + ".pdf";
             File pdfFile = new File(pdfFilePath);
             if (!pdfFile.exists()) {
                 documentConverter.convert(sourceFile).to(pdfFile).execute();
@@ -46,6 +46,6 @@ public class FilePreviewServiceImpl implements IFilePreviewService {
         } catch (OfficeException e) {
             e.printStackTrace();
         }
-        return FileUtils.getPdfRelativeFilePath(serviceId) + "/" + storage.getMd5() + ".pdf";
+        return FileUtils.getPdfPreviewRelativeFilePath(serviceId) + "/" + storage.getMd5() + ".pdf";
     }
 }

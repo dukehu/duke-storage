@@ -1,5 +1,5 @@
 server:
-  port: 5287
+  port: 5288
   context-path: /
 
 spring:
@@ -13,6 +13,10 @@ spring:
           prepStmtCacheSize: 250
           prepStmtCacheSqlLimit: 2048
           useServerPrepStmts: true
+  http:
+    multipart:
+      max-file-size: 500Mb      # Max file size，默认1M
+      max-request-size: 1000Mb   # Max request size，默认10M
 
 jodconverter:
   local:

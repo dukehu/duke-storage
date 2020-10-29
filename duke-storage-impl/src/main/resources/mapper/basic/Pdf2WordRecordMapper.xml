@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.duke.microservice.storage.mapper.basic.Pdf2WordRecordMapper">
+    <resultMap id="BaseResultMap" type="com.duke.microservice.storage.domain.basic.Pdf2WordRecord">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="file_id" property="fileId" jdbcType="VARCHAR"/>
+        <result column="transform_time" property="transformTime" jdbcType="TIMESTAMP"/>
+        <result column="take_up_time" property="takeUpTime" jdbcType="VARCHAR"/>
+        <result column="transformed_path" property="transformedPath" jdbcType="VARCHAR"/>
+        <result column="user_id" property="userId" jdbcType="VARCHAR"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete
+        from pdf2word_record
+        where id = #{id,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" parameterType="com.duke.microservice.storage.domain.basic.Pdf2WordRecord">
+        insert into pdf2word_record (id, name, file_id,
+                                     transform_time, take_up_time, transformed_path,
+                                     user_id)
+        values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{fileId,jdbcType=VARCHAR},
+                #{transformTime,jdbcType=TIMESTAMP}, #{takeUpTime,jdbcType=VARCHAR},
+                #{transformedPath,jdbcType=VARCHAR},
+                #{userId,jdbcType=VARCHAR})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com.duke.microservice.storage.domain.basic.Pdf2WordRecord">
+        update pdf2word_record
+        set name             = #{name,jdbcType=VARCHAR},
+            file_id          = #{fileId,jdbcType=VARCHAR},
+            transform_time   = #{transformTime,jdbcType=TIMESTAMP},
+            take_up_time     = #{takeUpTime,jdbcType=VARCHAR},
+            transformed_path = #{transformedPath,jdbcType=VARCHAR},
+            user_id          = #{userId,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select id, name, file_id, transform_time, take_up_time, transformed_path, user_id
+        from pdf2word_record
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select id, name, file_id, transform_time, take_up_time, transformed_path, user_id
+        from pdf2word_record
+    </select>
+</mapper>

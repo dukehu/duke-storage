@@ -62,7 +62,7 @@ public class ChunkServiceImpl implements IChunkService {
         ValidationUtils.notEmpty(serviceId, "服务id不可为空！");
 
         String relativeFilePath = FileUtils.getChunkRelativeFilePath(serviceId);
-        File file = new File(storageProperties.getChunkStoragePath() + relativeFilePath + "/" + md5);
+        File file = new File(storageProperties.getPath() + relativeFilePath + "/" + md5);
         // 文件名称，如time.png
         String originalFileName = multipartFile.getOriginalFilename();
         // 街截取文件后缀

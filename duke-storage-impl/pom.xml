@@ -195,6 +195,15 @@
             <version>4.2.2</version>
         </dependency>
 
+        <!-- 使用maven 引入Spire的PDF jar包 -->
+        <dependency>
+            <groupId>e-iceblue</groupId>
+            <artifactId>spire.pdf</artifactId>
+            <version>3.4.2</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/spire.pdf-3.4.2.jar</systemPath>
+        </dependency>
+
     </dependencies>
 
     <build>

@@ -38,27 +38,8 @@ public class FileDownLoadServiceImpl implements IFileDownLoadService {
         try {
             Storage storage = fileService.exist(fileId);
             File file = new File(storage.getPath());
-            if (!file.exists()) {
-                throw new BusinessException("数据不存在，无法下载");
-            }
-            response.reset();
-            response.setContentType("application/x-download");
-            response.setCharacterEncoding("utf-8");
-            FileInputStream is = new FileInputStream(file);
-            ServletOutputStream out = response.getOutputStream();
-
-            String filename = storage.getName() + "." + storage.getSuffix();
-            response.setHeader("Content-Disposition", "attachment;filename=" + new String(filename.getBytes("UTF-8"),"iso-8859-1"));
-            byte[] bytes = new byte[1024];
-            int len;
-            LOGGER.info("文件下载开始：" + filename + "（" + fileId + "）");
-            while ((len = is.read(bytes)) != -1) {
-                out.write(bytes, 0, len);
-                // out.flush();
-            }
-            LOGGER.info("文件下载结束：" + filename + "（" + fileId + "）");
-            is.close();
-            out.close();
+            String fileName = storage.getName() + "." + storage.getSuffix();
+            fileService.download(response, fileName, file);
         } catch (IOException e) {
             e.printStackTrace();
         }

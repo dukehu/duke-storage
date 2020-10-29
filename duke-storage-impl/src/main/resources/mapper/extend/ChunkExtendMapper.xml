@@ -3,31 +3,30 @@
 <mapper namespace="com.duke.microservice.storage.mapper.extend.ChunkExtendMapper">
     <select id="selectByIdentifierAndChunkNumber" resultType="com.duke.microservice.storage.domain.basic.Chunk">
         select id,
-               chunk_number,
-               chunk_size,
-               current_chunk_size,
-               total_size,
-               total_chunks,
+               chunk_number       as chunkNumber,
+               chunk_size         as chunkSize,
+               current_chunk_size as currentChunkSize,
+               total_size         as totalSize,
+               total_chunks       as totalChunks,
                path,
                identifier,
-               file_name,
-               type
+               file_name          as fileName
+            type
         from chunk
         where identifier = #{identifier, jdbcType=VARCHAR}
           and chunk_number = #{chunkNumber, jdbcType=INTEGER}
     </select>
 
     <select id="selectByMd5" resultType="com.duke.microservice.storage.domain.basic.Chunk">
-        select
-        id,
-        chunk_number,
-        chunk_size,
-        current_chunk_size,
-        total_size,
-        total_chunks,
-        path,
-        md5,
-        file_name
+        select id,
+               chunk_number       as chunkNumber,
+               chunk_size         as chunkSize,
+               current_chunk_size as currentChunkSize,
+               total_size         as totalSize,
+               total_chunks       as totalChunks,
+               path,
+               md5,
+               file_name          as fileName
         from chunk
         where md5 = #{md5, jdbcType=VARCHAR}
         order by chunk_number

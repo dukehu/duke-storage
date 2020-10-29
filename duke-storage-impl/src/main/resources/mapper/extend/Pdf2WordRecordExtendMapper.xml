@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.duke.microservice.storage.mapper.extend.Pdf2WordRecordExtendMapper">
+
+    <select id="selectByFileId" resultType="com.duke.microservice.storage.domain.basic.Pdf2WordRecord">
+        select id,
+               name,
+               file_id          as fileId,
+               transform_time   as transformTime,
+               take_up_time     as takeUpTime,
+               transformed_path as transformedPath,
+               user_id          as userId
+        from pdf2word_record
+        where file_id = #{fileId, jdbcType=VARCHAR}
+    </select>
+
+</mapper>

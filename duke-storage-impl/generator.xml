@@ -18,6 +18,6 @@
         <sqlMapGenerator targetPackage="mapper/basic" targetProject="MAVEN"/>
         <javaClientGenerator  type="XMLMAPPER" targetPackage="com.duke.microservice.storage.mapper.basic" targetProject="MAVEN"/>
 
-        <table domainObjectName="Chunk" tableName="chunk"/>
+        <table domainObjectName="Pdf2WordRecord" tableName="pdf2word_record"/>
     </context>
 </generatorConfiguration>

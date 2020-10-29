@@ -47,7 +47,7 @@ public class FileController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "fileId", value = "附件id", dataType = "string", paramType = "query", required = true)
     })
-    @ApiOperation(value = "根据附件id删除附件", notes = "根据附件id删除附件")
+    @ApiOperation(value = "根据附件id查询附件", notes = "根据附件id查询附件")
     @RequestMapping(value = "/nologin/file/{md5}", method = RequestMethod.GET)
     public Response<Boolean> selectByMD5(@PathVariable(value = "md5", required = false) String md5) {
         return Response.ok(fileService.selectByMD5(md5));
