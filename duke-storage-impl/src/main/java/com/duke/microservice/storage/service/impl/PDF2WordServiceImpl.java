@@ -54,7 +54,7 @@ public class PDF2WordServiceImpl implements IPDF2WordService {
         // 当前时间
         Date date = new Date();
         // word文件保存完整路径
-        String wordFullPath = storageProperties.getPath() + FileUtils.getWordRelativeFilePath(serviceId) + "/" + md5 + "." + ".docx";
+        String wordFullPath = storageProperties.getPath() + FileUtils.getWordRelativeFilePath(serviceId) + "/" + md5 + "." + "docx";
 
         // 需要保存的转换记录
         Pdf2WordRecord pdf2WordRecord = new Pdf2WordRecord();

@@ -228,6 +228,9 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <includeSystemScope>true</includeSystemScope>
+                </configuration>
             </plugin>
         </plugins>
         <!-- 指定打包后的名称，如：duke-blog-impl-1.0-SNAPSHOT-prod.war -->
@@ -250,7 +253,7 @@
             <id>prod</id>
             <properties>
                 <profileActive>prod</profileActive>
-                <openOfficeHome>D:\app\OpenOffice</openOfficeHome>
+                <openOfficeHome>/opt/openoffice4</openOfficeHome>
             </properties>
         </profile>
     </profiles>

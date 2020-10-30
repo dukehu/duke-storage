@@ -127,7 +127,7 @@ public class FileServiceImpl implements IFileService {
         storage.setName(fileNameNotSuffix);
         storage.setSuffix(suffix);
         storage.setServiceId(serviceId);
-        storage.setPath(storageProperties.getPath() + relativeFilePath + "/" + originalFilename);
+        storage.setPath(storageProperties.getPath() + relativeFilePath + "/" + md5 + "." + suffix);
         storage.setSize(Integer.parseInt(String.valueOf(multipartFile.getSize())));
         storage.setStatus(StorageConstants.FILE_STATUS.EXIST.getCode());
         storage.setUserId(userId);
