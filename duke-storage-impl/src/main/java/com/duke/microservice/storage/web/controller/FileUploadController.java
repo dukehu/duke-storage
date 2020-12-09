@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,7 +34,8 @@ public class FileUploadController implements FileUploadRestService {
     @ApiImplicitParams({
     })
     @ApiOperation(value = "文件块上传", notes = "文件块上传")
-    @RequestMapping(value = "/nologin/upload/chunk", method = RequestMethod.POST)
+    @PreAuthorize("hasAuthority('admin') or hasAuthority('storage_upload_chunk')")
+    @RequestMapping(value = "/upload/chunk", method = RequestMethod.POST)
     public Response<String> fileUploadChunk(@RequestParam(value = "file", required = false) MultipartFile file,
                                             @RequestParam(value = "chunkNumber", required = false) Integer chunkNumber,
                                             @RequestParam(value = "chunkSize", required = false) Long chunkSize,
@@ -59,7 +61,8 @@ public class FileUploadController implements FileUploadRestService {
     @ApiImplicitParams({
     })
     @ApiOperation(value = "文件合并", notes = "文件合并")
-    @RequestMapping(value = "/nologin/file/merge", method = RequestMethod.POST)
+    @PreAuthorize("hasAuthority('admin') or hasAuthority('storage_file_merge')")
+    @RequestMapping(value = "/file/merge", method = RequestMethod.POST)
     public Response<String> fileMerge(@RequestParam(value = "fileName", required = false) String fileName,
                                       @RequestParam(value = "fileSize", required = false) Integer fileSize,
                                       @RequestParam(value = "md5", required = false) String md5,
@@ -71,7 +74,8 @@ public class FileUploadController implements FileUploadRestService {
     @ApiImplicitParams({
     })
     @ApiOperation(value = "秒传", notes = "秒传")
-    @RequestMapping(value = "/nologin/file/secondUpload", method = RequestMethod.POST)
+    @PreAuthorize("hasAuthority('admin') or hasAuthority('storage_file_secondUpload')")
+    @RequestMapping(value = "/file/secondUpload", method = RequestMethod.POST)
     public Response<String> secondUpload(@RequestParam(value = "fileName", required = false) String fileName,
                                          @RequestParam(value = "md5", required = false) String md5,
                                          @RequestParam(value = "serviceId", required = false) String serviceId) {

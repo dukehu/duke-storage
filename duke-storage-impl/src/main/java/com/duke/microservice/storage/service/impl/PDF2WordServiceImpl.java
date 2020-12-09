@@ -1,6 +1,8 @@
 package com.duke.microservice.storage.service.impl;
 
+import com.duke.framework.security.AuthUserDetails;
 import com.duke.framework.utils.FileUtils;
+import com.duke.framework.utils.SecurityUtils;
 import com.duke.microservice.storage.StorageProperties;
 import com.duke.microservice.storage.domain.basic.Pdf2WordRecord;
 import com.duke.microservice.storage.domain.basic.Storage;
@@ -44,6 +46,10 @@ public class PDF2WordServiceImpl implements IPDF2WordService {
 
     @Override
     public String pdf2Word(MultipartFile multipartFile, String serviceId, String md5) {
+
+        // 获取用户信息
+        AuthUserDetails authUserDetails = SecurityUtils.getCurrentUserInfo();
+
         long start = System.currentTimeMillis();
         // 文件原始名称
         String originalFilename = multipartFile.getOriginalFilename();
@@ -61,7 +67,7 @@ public class PDF2WordServiceImpl implements IPDF2WordService {
         pdf2WordRecord.setId(UUID.randomUUID().toString());
         pdf2WordRecord.setName(fileNameNotSuffix + ".docx");
         pdf2WordRecord.setTransformTime(date);
-        pdf2WordRecord.setUserId("b66a3fe7-8fdd-11e8-bcd8-18dbf21f6c28");
+        pdf2WordRecord.setUserId(authUserDetails.getUserId());
         pdf2WordRecord.setTransformedPath(wordFullPath);
 
         Storage storage = fileService.secondUpload(serviceId, fileNameNotSuffix, md5);

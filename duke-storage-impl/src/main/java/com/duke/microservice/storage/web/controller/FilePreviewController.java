@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,7 +29,8 @@ public class FilePreviewController {
             @ApiImplicitParam(name = "fileId", value = "附件id", dataType = "string", paramType = "query", required = true)
     })
     @ApiOperation(value = "文件列表", notes = "文件列表")
-    @RequestMapping(value = "/nologin/toPdfFile", method = RequestMethod.GET)
+    @PreAuthorize("hasAuthority('admin') or hasAuthority('storage_file_toPdfFile')")
+    @RequestMapping(value = "/toPdfFile", method = RequestMethod.GET)
     public Response<String> toPdfFile(@RequestParam(value = "serviceId", required = false) String serviceId,
                                       @RequestParam(value = "fileId", required = false) String fileId) {
         return Response.ok(filePreviewService.toPdfFile(serviceId, fileId));

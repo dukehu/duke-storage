@@ -27,4 +27,12 @@ public interface StorageExtendMapper {
      * @return List<Storage>
      */
     List<Storage> selectFilesByServiceId(@Param("serviceId") String serviceId);
+
+    /**
+     * 根据服务id和用户id查询
+     *
+     * @param serviceId 服务id
+     * @return List<Storage>
+     */
+    List<Storage> selectFilesByServiceIdAndUserId(@Param("serviceId") String serviceId, @Param("userId") String userId);
 }

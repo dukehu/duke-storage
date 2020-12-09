@@ -1,6 +1,8 @@
 package com.duke.microservice.storage.service.impl;
 
+import com.duke.framework.security.AuthUserDetails;
 import com.duke.framework.utils.FileUtils;
+import com.duke.framework.utils.SecurityUtils;
 import com.duke.microservice.storage.StorageConstants;
 import com.duke.microservice.storage.StorageProperties;
 import com.duke.microservice.storage.domain.basic.Storage;
@@ -63,13 +65,15 @@ public class FileServiceImpl implements IFileService {
 
     @Transactional(readOnly = true)
     public PageInfo<StorageVM> selectFilesByServiceId(String serviceId, Integer page, Integer size) {
+        // 获取用户信息
+        AuthUserDetails authUserDetails = SecurityUtils.getCurrentUserInfo();
         if (ObjectUtils.isEmpty(page) || ObjectUtils.isEmpty(size)) {
             page = 0;
             size = 10;
         }
         String storagePath = storageProperties.getPath();
         PageHelper.startPage(page, size);
-        List<Storage> storages = storageExtendMapper.selectFilesByServiceId(serviceId);
+        List<Storage> storages = storageExtendMapper.selectFilesByServiceIdAndUserId(serviceId, authUserDetails.getUserId());
         List<StorageVM> storageVMS = new Page<>();
         if (!CollectionUtils.isEmpty(storages)) {
             for (Storage storage : storages) {

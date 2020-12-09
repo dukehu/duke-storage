@@ -37,3 +37,8 @@ duke:
     license:
     licenseUrl:
     basePackage: com.duke.microservice.storage
+
+security:
+  oauth2:
+    resource:
+      user-info-uri: http://127.0.0.1:5285/user/duke-storage

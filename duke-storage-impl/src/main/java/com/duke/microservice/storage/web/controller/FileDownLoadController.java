@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -29,7 +30,8 @@ public class FileDownLoadController {
             @ApiImplicitParam(name = "fileId", value = "附件id", dataType = "string", paramType = "path")
     })
     @ApiOperation(value = "文件下载", notes = "文件下载")
-    @RequestMapping(value = "/nologin/file_download/{fileId}", method = RequestMethod.POST)
+    @PreAuthorize("hasAuthority('admin') or hasAuthority('storage_file_download')")
+    @RequestMapping(value = "/file_download/{fileId}", method = RequestMethod.POST)
     public Response<String> fileDownLoad(@PathVariable(value = "fileId", required = false) String fileId,
                                          HttpServletRequest request,
                                          HttpServletResponse response) {
